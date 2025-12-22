@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chan Tastemade - Pempek & Siomay Frozen Premium</title>
+    <title>Chan Tastemade - Makanan Rumahan Berkualitas Sejak 2020</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,6 +35,9 @@
         
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
         
         body {
@@ -43,6 +46,8 @@
             color: var(--text-dark);
             background-color: var(--white);
             overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
         
         h1, h2, h3, h4 {
@@ -56,6 +61,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            overflow: hidden;
         }
         
         img {
@@ -147,6 +153,87 @@
             font-size: 1.5rem;
         }
         
+        /* ===== IMAGE FULLSCREEN MODAL ===== */
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .fullscreen-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .fullscreen-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        
+        .fullscreen-modal.active img {
+            transform: scale(1);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 2.5rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        
+        .close-modal:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+        
+        .modal-image-info {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-image-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+        
+        .modal-image-info p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
         /* ===== HEADER/HERO SECTION ===== */
         .hero-section {
             background: linear-gradient(135deg, var(--maroon) 0%, var(--darker-maroon) 100%);
@@ -184,6 +271,7 @@
             border: 4px solid var(--cream);
             object-fit: cover;
             transition: var(--transition);
+            cursor: pointer;
         }
         
         .logo-img:hover {
@@ -234,21 +322,6 @@
             margin: 0 auto;
             position: relative;
             z-index: 2;
-        }
-        
-        .hero-content h2 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-        
-        .hero-content p {
-            font-size: 1.4rem;
-            margin-bottom: 35px;
-            opacity: 0.9;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
         }
         
         .cta-button {
@@ -418,7 +491,7 @@
             font-size: 0.9rem;
         }
         
-        /* ===== PRODUCT SECTION (UPDATED FOR REAL IMAGES) ===== */
+        /* ===== PRODUCT SECTION (HORIZONTAL SCROLL) ===== */
         .product-section {
             padding: 100px 0;
             background-color: var(--light-cream);
@@ -464,14 +537,46 @@
             gap: 10px;
         }
         
+        /* HORIZONTAL SCROLL CONTAINER STYLES */
         .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            gap: 25px;
+            padding: 20px 10px 30px 10px;
+            margin: 0 -10px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .product-grid::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .product-grid::-webkit-scrollbar-track {
+            background: rgba(128, 0, 32, 0.05);
+            border-radius: 10px;
+        }
+        
+        .product-grid::-webkit-scrollbar-thumb {
+            background: rgba(128, 0, 32, 0.2);
+            border-radius: 10px;
+        }
+        
+        .product-grid::-webkit-scrollbar-thumb:hover {
+            background: rgba(128, 0, 32, 0.3);
+        }
+        
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .product-grid {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(128, 0, 32, 0.2) rgba(128, 0, 32, 0.05);
         }
         
         .product-card {
+            flex: 0 0 280px;
+            min-width: 280px;
+            max-width: 280px;
             background-color: var(--white);
             border-radius: var(--border-radius-lg);
             overflow: hidden;
@@ -507,10 +612,36 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
+            cursor: pointer;
         }
         
         .product-card:hover .product-image img {
             transform: scale(1.05);
+        }
+        
+        .zoom-icon {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--maroon);
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: var(--transition);
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        .product-image:hover .zoom-icon {
+            opacity: 1;
+            transform: scale(1);
         }
         
         .product-info {
@@ -649,6 +780,10 @@
             font-size: 1.5rem;
             margin-bottom: 15px;
             color: var(--maroon);
+        }
+        
+        .step p {
+            color: var(--text-light);
         }
         
         .info-cards {
@@ -875,27 +1010,6 @@
             color: var(--text-light);
         }
         
-        .map-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: linear-gradient(135deg, var(--maroon), var(--dark-maroon));
-            color: white;
-            padding: 14px 28px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: var(--transition);
-            margin-top: 10px;
-            box-shadow: 0 8px 20px rgba(128, 0, 32, 0.2);
-        }
-        
-        .map-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(128, 0, 32, 0.3);
-            background: linear-gradient(135deg, var(--dark-maroon), #500015);
-        }
-        
         /* ===== FOOTER ===== */
         .footer {
             background: linear-gradient(135deg, var(--darker-maroon) 0%, var(--maroon) 100%);
@@ -1035,10 +1149,6 @@
                 font-size: 2.2rem;
             }
             
-            .hero-content p {
-                font-size: 1.2rem;
-            }
-            
             .section-title {
                 font-size: 1.8rem;
             }
@@ -1058,7 +1168,19 @@
             }
             
             .product-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+                padding: 15px 10px 25px 10px;
+            }
+            
+            .product-card {
+                flex: 0 0 260px;
+                min-width: 260px;
+                max-width: 260px;
+            }
+            
+            /* Show scrollbar on mobile for better UX */
+            .product-grid::-webkit-scrollbar {
+                height: 6px;
             }
             
             .features,
@@ -1081,6 +1203,28 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            /* Fullscreen modal responsive */
+            .close-modal {
+                top: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 2rem;
+            }
+            
+            .modal-image-info {
+                bottom: 20px;
+                padding: 12px;
+            }
+            
+            .modal-image-info h3 {
+                font-size: 1.2rem;
+            }
+            
+            .modal-image-info p {
+                font-size: 0.9rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -1102,7 +1246,17 @@
             }
             
             .product-grid {
-                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .product-card {
+                flex: 0 0 250px;
+                min-width: 250px;
+                max-width: 250px;
+            }
+            
+            .product-image {
+                height: 180px;
             }
             
             .contact-content {
@@ -1120,6 +1274,28 @@
             .faq-question h3 {
                 font-size: 1.1rem;
             }
+            
+            /* Fullscreen modal responsive */
+            .close-modal {
+                top: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.8rem;
+            }
+            
+            .modal-image-info {
+                bottom: 15px;
+                padding: 10px;
+            }
+            
+            .modal-image-info h3 {
+                font-size: 1.1rem;
+            }
+            
+            .modal-image-info p {
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -1131,6 +1307,18 @@
         <span>Pesan via WhatsApp</span>
     </a>
 
+    <!-- Fullscreen Image Modal -->
+    <div class="fullscreen-modal" id="imageModal">
+        <button class="close-modal" id="closeModal">&times;</button>
+        <div class="modal-image-container">
+            <img id="modalImage" src="" alt="">
+        </div>
+        <div class="modal-image-info">
+            <h3 id="modalTitle"></h3>
+            <p id="modalDescription"></p>
+        </div>
+    </div>
+
     <!-- Header/Hero Section dengan Logo -->
     <header class="hero-section">
         <div class="container">
@@ -1140,6 +1328,7 @@
                     alt="Logo Chan Tastemade" 
                     class="logo-img"
                     loading="lazy"
+                    id="logoImage"
                 >
                 <div class="logo-text">
                     <h1>Chan TasteMade</h1>
@@ -1265,7 +1454,7 @@
         </div>
     </section>
 
-    <!-- Product Section DENGAN FOTO ASLI -->
+    <!-- Product Section DENGAN HORIZONTAL SCROLL -->
     <section class="product-section fade-in" id="products">
         <div class="container">
             <h2 class="section-title">Menu Kami</h2>
@@ -1280,7 +1469,15 @@
                     <!-- Pempek Little Family -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=12IfD_sOHYw5BpdciaQlEjoV2vc5cqp83&sz=w1000" alt="Pempek Little Family" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=12IfD_sOHYw5BpdciaQlEjoV2vc5cqp83&sz=w1000" 
+                                 alt="Pempek Little Family" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=12IfD_sOHYw5BpdciaQlEjoV2vc5cqp83&sz=w2000"
+                                 data-title="Pempek Little Family"
+                                 data-description="10 pcs pempek adaan, 10 pcs pempek lenjer, 10 pcs pempek telur, 250 ml Cuko">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1297,7 +1494,15 @@
                     <!-- Pempek Campur -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=1RgZC_eafENYk031PbozccFw_OrkG5Dk8&sz=w1000" alt="Pempek Campur" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=1RgZC_eafENYk031PbozccFw_OrkG5Dk8&sz=w1000" 
+                                 alt="Pempek Campur" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=1RgZC_eafENYk031PbozccFw_OrkG5Dk8&sz=w2000"
+                                 data-title="Pempek Campur"
+                                 data-description="5 pcs pempek adaan, 5 pcs pempek lenjer, 5 pcs pempek telur, 80 ml Cuko">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1314,7 +1519,15 @@
                     <!-- Pempek Big Family -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=18YoYiGak2Itpgu6Me1MJUPb1m4LwMezk&sz=w1000" alt="Pempek Big Family" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=18YoYiGak2Itpgu6Me1MJUPb1m4LwMezk&sz=w1000" 
+                                 alt="Pempek Big Family" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=18YoYiGak2Itpgu6Me1MJUPb1m4LwMezk&sz=w2000"
+                                 data-title="Pempek Big Family"
+                                 data-description="20 pcs Kulit, 15 pcs Lenjer, 15 pcs Adaan, 15 pcs Telor, 4 pcs Kapal Selam, 750 ml Cuko">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1331,7 +1544,15 @@
                     <!-- Pempek Kulit -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=19_A9kL5nLr4UXbC0AH0wqho3p9jzcIq2&sz=w1000" alt="Pempek Kulit" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=19_A9kL5nLr4UXbC0AH0wqho3p9jzcIq2&sz=w1000" 
+                                 alt="Pempek Kulit" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=19_A9kL5nLr4UXbC0AH0wqho3p9jzcIq2&sz=w2000"
+                                 data-title="Pempek Kulit"
+                                 data-description="10 pcs Pempek Kulit, 80 ml Cuko">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1348,7 +1569,15 @@
                     <!-- Pempek Adaan -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=12ZoIEkL5wZmr5I5mUe9ESGIRa9o3V-Ox&sz=w1000" alt="Pempek Adaan" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=12ZoIEkL5wZmr5I5mUe9ESGIRa9o3V-Ox&sz=w1000" 
+                                 alt="Pempek Adaan" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=12ZoIEkL5wZmr5I5mUe9ESGIRa9o3V-Ox&sz=w2000"
+                                 data-title="Pempek Adaan"
+                                 data-description="10 pcs Adaan, 80 ml Cuko">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1365,7 +1594,15 @@
                     <!-- Double Selam -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=1--aXp0htquK0Neo1fm6cpMtGMSuJXs5-&sz=w1000" alt="Double Selam" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=1--aXp0htquK0Neo1fm6cpMtGMSuJXs5-&sz=w1000" 
+                                 alt="Double Selam" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=1--aXp0htquK0Neo1fm6cpMtGMSuJXs5-&sz=w2000"
+                                 data-title="Double Selam"
+                                 data-description="2 pcs Pempek Kapal Selam, 80 ml Cuko">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1391,7 +1628,15 @@
                     <!-- Siomay Ayam Udang -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=1ZN2-6k4Lv1Epw6Bi7RxOKNOrWELJ4rWu&sz=w1000" alt="Siomay Ayam Udang" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=1ZN2-6k4Lv1Epw6Bi7RxOKNOrWELJ4rWu&sz=w1000" 
+                                 alt="Siomay Ayam Udang" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=1ZN2-6k4Lv1Epw6Bi7RxOKNOrWELJ4rWu&sz=w2000"
+                                 data-title="Siomay Ayam Udang"
+                                 data-description="8 pcs Siomay Ayam Udang, 80 ml Saus Kacang">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1408,7 +1653,15 @@
                     <!-- Siomay Ikan Tenggiri -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=1hAFi5hEyDUNloG4RghBI77p3oCijYirq&sz=w1000" alt="Siomay Ikan Tenggiri" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=1hAFi5hEyDUNloG4RghBI77p3oCijYirq&sz=w1000" 
+                                 alt="Siomay Ikan Tenggiri" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=1hAFi5hEyDUNloG4RghBI77p3oCijYirq&sz=w2000"
+                                 data-title="Siomay Ikan Tenggiri"
+                                 data-description="9 pcs Siomay Ikan Tenggiri, 80 ml Saus Kacang">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1425,7 +1678,15 @@
                     <!-- Wonton Crispy -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=1U5ORO_L9weewZYQuiVXosczGC1crl9-J&sz=w1000" alt="Wonton Crispy" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=1U5ORO_L9weewZYQuiVXosczGC1crl9-J&sz=w1000" 
+                                 alt="Wonton Crispy" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=1U5ORO_L9weewZYQuiVXosczGC1crl9-J&sz=w2000"
+                                 data-title="Wonton Crispy"
+                                 data-description="250 gr Wonton siap goreng">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1451,7 +1712,15 @@
                     <!-- Sosis Solo -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=1SLr-47VpNDiqNENiucKCsMogzTZY7EP-&sz=w1000" alt="Sosis Solo" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=1SLr-47VpNDiqNENiucKCsMogzTZY7EP-&sz=w1000" 
+                                 alt="Sosis Solo" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=1SLr-47VpNDiqNENiucKCsMogzTZY7EP-&sz=w2000"
+                                 data-title="Sosis Solo"
+                                 data-description="10 pcs Sosis isi Ayam Cincang">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1468,7 +1737,15 @@
                     <!-- Cilok -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=1TGLGxb7zB9ni_RWdXv04F_rUvumPiskE&sz=w1000" alt="Cilok" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=1TGLGxb7zB9ni_RWdXv04F_rUvumPiskE&sz=w1000" 
+                                 alt="Cilok" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=1TGLGxb7zB9ni_RWdXv04F_rUvumPiskE&sz=w2000"
+                                 data-title="Cilok"
+                                 data-description="20 pcs Cilok Ayam, 50 ml Saus Sambal">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1485,7 +1762,15 @@
                     <!-- Tekwan -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=18qmGOU5OF95B4oXXBMdZcQHiUyCtsOsH&sz=w1000" alt="Tekwan" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=18qmGOU5OF95B4oXXBMdZcQHiUyCtsOsH&sz=w1000" 
+                                 alt="Tekwan" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=18qmGOU5OF95B4oXXBMdZcQHiUyCtsOsH&sz=w2000"
+                                 data-title="Tekwan"
+                                 data-description="500 gr Pentol Tekwan, 1 bks Soun, 1 bks Kaldu Udang, 1 bks Sambal">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Frozen</span>
@@ -1511,7 +1796,15 @@
                     <!-- Kentang Mustofa Large -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=1nq05aj0utRLGg2kmO7y11qyB52dkqmjh&sz=w1000" alt="Kentang Mustofa Large" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=1nq05aj0utRLGg2kmO7y11qyB52dkqmjh&sz=w1000" 
+                                 alt="Kentang Mustofa Large" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=1nq05aj0utRLGg2kmO7y11qyB52dkqmjh&sz=w2000"
+                                 data-title="Kentang Mustofa Large"
+                                 data-description="Volume 2000 ml, 500 gr Kentang Mustofa renyah">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Siap Saji</span>
@@ -1528,7 +1821,15 @@
                     <!-- Kentang Mustofa Medium -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=1nq05aj0utRLGg2kmO7y11qyB52dkqmjh&sz=w1000" alt="Kentang Mustofa Medium" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=1nq05aj0utRLGg2kmO7y11qyB52dkqmjh&sz=w1000" 
+                                 alt="Kentang Mustofa Medium" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=1nq05aj0utRLGg2kmO7y11qyB52dkqmjh&sz=w2000"
+                                 data-title="Kentang Mustofa Medium"
+                                 data-description="Volume 1300 ml, 320 gr Kentang Mustofa renyah">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Siap Saji</span>
@@ -1545,7 +1846,15 @@
                     <!-- Kentang Mustofa Small -->
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="https://drive.google.com/thumbnail?id=1nq05aj0utRLGg2kmO7y11qyB52dkqmjh&sz=w1000" alt="Kentang Mustofa Small" loading="lazy">
+                            <div class="zoom-icon">
+                                <i class="fas fa-search-plus"></i>
+                            </div>
+                            <img src="https://drive.google.com/thumbnail?id=1nq05aj0utRLGg2kmO7y11qyB52dkqmjh&sz=w1000" 
+                                 alt="Kentang Mustofa Small" 
+                                 loading="lazy"
+                                 data-fullscreen="https://drive.google.com/thumbnail?id=1nq05aj0utRLGg2kmO7y11qyB52dkqmjh&sz=w2000"
+                                 data-title="Kentang Mustofa Small"
+                                 data-description="Volume 1000 ml, 250 gr Kentang Mustofa renyah">
                         </div>
                         <div class="product-info">
                             <span class="product-type">Siap Saji</span>
@@ -1596,6 +1905,8 @@
                     <p>Pesanan akan segera diproses dan dikirim ke alamat Anda dengan lapisan styrofoam</p>
                 </div>
             </div>
+            
+            <div class="info-cards">
                 <div class="info-card">
                     <i class="fas fa-snowflake"></i>
                     <h3>Vacuum Sealed</h3>
@@ -1716,7 +2027,6 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
         </div>
     </section>
@@ -1727,7 +2037,7 @@
             <div class="footer-content">
                 <div class="footer-logo">
                     <h3>Chan Tastemade</h3>
-                    <p>Makanan rumahan berkualitas sejak 2020. Dibuat dengan cinta dan bahan terbaik untuk keluarga Indonesia..</p>
+                    <p>Makanan rumahan berkualitas sejak 2020. Dibuat dengan cinta dan bahan terbaik untuk keluarga Indonesia.</p>
                 </div>
                 
                 <div class="footer-links">
@@ -1841,6 +2151,80 @@
                 const message = `Halo Chan Tastemade, saya mau pesan ${productName}`;
                 const encodedMessage = encodeURIComponent(message);
                 this.href = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            });
+        });
+        
+        // ===== FULLSCREEN IMAGE MODAL FUNCTIONALITY =====
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const closeModal = document.getElementById('closeModal');
+        const logoImage = document.getElementById('logoImage');
+        
+        // Function to open modal with specific image
+        function openModal(imageSrc, title, description) {
+            modalImage.src = imageSrc;
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Function to close modal
+        function closeImageModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            
+            // Reset after animation completes
+            setTimeout(() => {
+                modalImage.src = '';
+                modalTitle.textContent = '';
+                modalDescription.textContent = '';
+            }, 300);
+        }
+        
+        // Add click event to logo image
+        logoImage.addEventListener('click', () => {
+            openModal(
+                logoImage.src,
+                'Chan Tastemade Logo',
+                'Makanan Rumahan Berkualitas'
+            );
+        });
+        
+        // Event listeners for modal controls
+        closeModal.addEventListener('click', closeImageModal);
+        
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeImageModal();
+            }
+        });
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            
+            if(e.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+        
+        // Add click events to all product images
+        document.addEventListener('DOMContentLoaded', function() {
+            const productImages = document.querySelectorAll('.product-image img');
+            
+            productImages.forEach(img => {
+                img.addEventListener('click', () => {
+                    openModal(
+                        img.getAttribute('data-fullscreen') || img.src,
+                        img.getAttribute('data-title') || img.alt,
+                        img.getAttribute('data-description') || ''
+                    );
+                });
             });
         });
     </script>
